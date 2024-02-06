@@ -36,11 +36,46 @@
     </div>
     <div class="row">
         <div class="col-auto">
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-primary" id="joinbtn">
                 <i class="bi bi-check-all"></i> 입력완료</button>
             <button type="reset" class="btn btn-danger">
                 <i class="bi bi-arrow-repeat"></i> 다시입력</button></div>
     </div>
 </form>
 </main>
+{% endblock %}
+
+{% block script %}
+<script>
+    let joinbtn = document.querySelector('#joinbtn');
+    let joinfrm = document.joinfrm;
+
+    joinbtn.addEventListener('click', ()=>{
+        const formData = new FormData(joinfrm);
+
+        let jsonData = {}
+        formData.forEach(function (val, key){
+            jsonData[key] = val;
+        })
+
+        const apiUrl = `http://127.0.0.1:8000/join`;
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        }).then(res => res.text()).then(data => {
+
+            if (data > 0) {
+                location.href = '/joinok';
+            } else {
+                location.href = '/error';
+            }
+
+        }).catch(err => console.log(err));
+
+    })
+</script>
 {% endblock %}
