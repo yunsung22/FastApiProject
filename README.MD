@@ -1,1 +1,4 @@
 FASTAPI PROJECT
+sqlAlchemy
+pydantic
+jinja2 template
